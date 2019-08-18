@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" scanPeriod="10 seconds">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [${springAppName},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}] [%thread] %-5level %logger{128} - %msg%n"/>
+    <!--<property name="LOG_HOME" value="/data/${springAppName}/logs" />-->
+    <property name="LOG_HOME" value="/data/logs/sspku"/>
+    <!-- 控制台输出 -->
+    <appender name="stdout"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                <!-- %X{sessionId} - %date [%thread] %-5level %logger{80} - %msg%n -->
+                ${CONSOLE_LOG_PATTERN}
+            </pattern>
+        </encoder>
+    </appender>
+    <!--
+        如果返回DENY，那么记录事件立即被抛弃，不再经过剩余过滤器；
+
+        如果返回NEUTRAL，那么有序列表里的下一个过滤器会接着处理记录事件；
+
+        如果返回ACCEPT，那么记录事件被立即处理，不再经过剩余过滤器。
+     -->
+    <!-- 时间滚动输出 level为 INFO 日志 -->
+    <appender name="file—info"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_HOME}/info.%d{yyyy-MM-dd}.log
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                <!-- %X{sessionId} - %date [%thread] %-5level %logger{80} - %msg%n -->
+                ${CONSOLE_LOG_PATTERN}
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 时间滚动输出 level为 WARN 日志 -->
+    <appender name="file—warn"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_HOME}/warn.%d{yyyy-MM-dd}.log
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                <!-- %X{sessionId} - %date [%thread] %-5level %logger{80} - %msg%n -->
+                ${CONSOLE_LOG_PATTERN}
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 时间滚动输出 level为 ERROR 日志 -->
+    <appender name="file—error"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_HOME}/error.%d{yyyy-MM-dd}.log
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                <!-- %X{sessionId} - %date [%thread] %-5level %logger{80} - %msg%n -->
+                ${CONSOLE_LOG_PATTERN}
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="springfox.documentation" additivity="false">
+        <level value="ERROR"/>
+    </logger>
+
+    <!-- 开发环境下的日志配置 -->
+    <springProfile name="dev">
+        <root level="INFO">
+            <appender-ref ref="stdout"/>
+            <appender-ref ref="file—info"/>
+            <appender-ref ref="file—warn"/>
+            <appender-ref ref="file—error"/>
+        </root>
+    </springProfile>
+
+    <!-- 测试环境下的日志配置 -->
+    <springProfile name="test">
+        <root level="INFO">
+            <appender-ref ref="file—info"/>
+            <appender-ref ref="file—warn"/>
+            <appender-ref ref="file—error"/>
+        </root>
+    </springProfile>
+
+    <!-- 开发环境下的日志配置 -->
+    <springProfile name="pre">
+        <root level="INFO">
+            <appender-ref ref="file—info"/>
+            <appender-ref ref="file—warn"/>
+            <appender-ref ref="file—error"/>
+            <!--
+            <appender-ref ref="kafka_info_appender"/>
+            <appender-ref ref="kafka_warn_appender"/>
+            <appender-ref ref="kafka_error_appender"/>
+             -->
+        </root>
+    </springProfile>
+
+
+    <!-- 生产环境下的日志配置 -->
+    <springProfile name="prod">
+        <root level="INFO">
+            <appender-ref ref="file—info"/>
+            <appender-ref ref="file—warn"/>
+            <appender-ref ref="file—error"/>
+        </root>
+    </springProfile>
+</configuration>

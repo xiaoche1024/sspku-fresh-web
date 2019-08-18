@@ -1,0 +1,38 @@
+spring:
+  application:
+      name: sspku-fresh-web
+  profiles:
+    active: dev
+  freemarker:
+    cache: false
+    request-context-attribute: request
+    prefer-file-system-access: false
+#    template-loader-path=classpath: /templates/
+  mvc:
+      favicon:
+        enabled: false
+      static-path-pattern: /static/**
+      throw-exception-if-no-handler-found: true
+  http:
+      encoding:
+        force: true
+        charset: UTF-8
+        enabled: true
+      multipart:
+        max-file-size: 20Mb
+        max-request-size: 100Mb
+
+logging:
+    level:
+        tk.mybatis: TRACE
+    config: classpath:logback-spring.xml
+    path: /data/local/sspku/   #日志路径
+
+mybatis:
+    type-aliases-package: com.sspku.model
+    mapper-locations: classpath:mapper/*.xml
+    configuration:
+      map-underscore-to-camel-case: true
+
+
+
