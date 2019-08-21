@@ -1,3 +1,6 @@
+datasource:
+  filepath: /Users/xiaoche/king/xxx/datasource/datasource-sspku-application.properties
+
 server:
   port: 8080  #访问项目端口
   context-path: /  #访问项目名称
@@ -6,17 +9,6 @@ spring:
     favicon:
       enabled: false
     static-path-pattern: /static/**
-  datasource:
-    #db连接地址
-    url: jdbc:mysql://127.0.0.1:3306/sspku?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: root
-    driverClassName: com.mysql.jdbc.Driver
-    druid:
-      initial-size: 1
-      min-idle: 1
-      max-active: 20
-      test-on-borrow: true
-      stat-view-servlet.allow: true
+
 
 
