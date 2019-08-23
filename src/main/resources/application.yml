@@ -4,10 +4,10 @@ spring:
   profiles:
     active: dev
   freemarker:
-    cache: false
-    request-context-attribute: request
-    prefer-file-system-access: false
-#    template-loader-path=classpath: /templates/
+      cache: false
+      request-context-attribute: request
+      prefer-file-system-access: false
+      template-loader-path=classpath: /templates/
   mvc:
       favicon:
         enabled: false

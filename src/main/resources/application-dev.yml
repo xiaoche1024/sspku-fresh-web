@@ -1,5 +1,5 @@
 datasource:
-  filepath: /Users/xiaoche/king/xxx/datasource/datasource-sspku-application.properties
+  filepath: /Users/xiaoche/king/luckincoffee/datasource/datasource-sspku-application.properties
 
 server:
   port: 8080  #访问项目端口
