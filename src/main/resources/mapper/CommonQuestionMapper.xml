@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sspku.dao.CommonQuestionDAO">
+
+
+    <select id="getCommonQuestion" parameterType="com.sspku.dto.CommonQuestionDTO" resultType="com.sspku.model.CommonQuestionDO">
+        SELECT * from tb_common_question
+    </select>
+
+</mapper>
